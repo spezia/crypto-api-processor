@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace Spezia\CryptoApiProcessor\Helpers;
 
 use Spezia\CryptoApiProcessor\CryptoApiAdapter;
+use Spezia\CryptoApiProcessor\Exceptions\CryptoApiProcessorException;
 
 trait CryptoApiAdapterHelper
 {
@@ -45,7 +46,7 @@ trait CryptoApiAdapterHelper
     public function hasExceedBalance(float $amount, string $ticker, string $fiatCurrency = ''): bool
     {
         if ($fiatCurrency && !in_array(strtoupper($fiatCurrency), config('blockbee.supported_fiat_currencies'))) {
-            throw new \InvalidArgumentException('Invalid fiat currency.');
+            throw new CryptoApiProcessorException('Invalid fiat currency.');
         }
 
         $adapter = $this->getAdapterInstance();

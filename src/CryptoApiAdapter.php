@@ -18,8 +18,7 @@ namespace Spezia\CryptoApiProcessor;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use InvalidArgumentException;
-use RuntimeException;
+use Spezia\CryptoApiProcessor\Exceptions\CryptoApiProcessorException;
 use Spezia\CryptoApiProcessor\Helpers\CryptoApiAdapterHelper;
 
 /**
@@ -46,7 +45,7 @@ class CryptoApiAdapter
 
         if (200 != $response->status()) {
             Log::error('BlockBee response: ',  $response->json());
-            throw new RuntimeException('Error fetching info.');
+            throw new CryptoApiProcessorException('Error fetching info.');
         }
 
         return $response->json();
@@ -62,7 +61,7 @@ class CryptoApiAdapter
 
         if (200 != $response->status()) {
             Log::error('BlockBee response has status ' . $response->status());
-            throw new RuntimeException('Your request could not be processed, please try again later');
+            throw new CryptoApiProcessorException('Your request could not be processed, please try again later');
         }
 
         return $response->json();
@@ -74,7 +73,7 @@ class CryptoApiAdapter
     public function getInfo(int $hasPrices = 1): iterable
     {
         if (!in_array($hasPrices, [0, 1], true)) {
-            throw new InvalidArgumentException('Prices must be either 0 or 1.');
+            throw new CryptoApiProcessorException('Prices must be either 0 or 1.');
         }
 
         $query = ['prices' => $hasPrices];
@@ -88,7 +87,7 @@ class CryptoApiAdapter
     public function getInfoByTicker(string $ticker, int $hasPrices = 1): iterable
     {
         if (!in_array($hasPrices, [0, 1], true)) {
-            throw new InvalidArgumentException('Prices must be either 0 or 1.');
+            throw new CryptoApiProcessorException('Prices must be either 0 or 1.');
         }
 
         $query = [
