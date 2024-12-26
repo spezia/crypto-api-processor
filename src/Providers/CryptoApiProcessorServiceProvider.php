@@ -23,12 +23,13 @@ class CryptoApiProcessorServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../../config/blockbee.php' => config_path('blockbee.php'),
         ], 'blockbee-config');
+    }
 
+    public function register()
+    {
         $this->mergeConfigFrom(
             __DIR__ . '/../../config/blockbee.php',
             'blockbee' // Alias for the configuration
         );
     }
-
-    public function register() {}
 }
