@@ -1,0 +1,49 @@
+{
+    "name": "spezia/crypto-api-processor",
+    "description": "This package is an unofficial integration of the BlockBee cryptocurrency payment gateway for Laravel applications.",
+    "authors": [
+        {
+            "role": "Developer",
+            "name": "Aleksandar Rancic",
+            "email": "aleks.rancic@gmail.com"
+        }
+    ],
+    "keywords": [
+        "laravel blockbee crypto",
+        "blockbee crypto api",
+        "crypto api adapter",
+        "spezia api processor",
+        "spezia laravel api"
+    ],
+    "type": "library",
+    "version": "1.0.0",
+    "require": {
+        "php": ">=8.2",
+        "laravel/framework": "^9.0|^10.0|^11.0"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Spezia\\CryptoApiProcessor\\": "src/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist",
+        "optimize-autoloader": true
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@php artisan vendor:publish --tag=blockbee-config --force"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Spezia\\CryptoApiProcessor\\Providers\\CryptoApiProcessorServiceProvider"
+            ]
+        }
+    }
+}
