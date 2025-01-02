@@ -69,7 +69,7 @@ use Spezia\CryptoApiProcessor\CryptoApiAdapter;
 use Spezia\CryptoApiProcessor\Exceptions\CryptoApiProcessorException;
 use Spezia\CryptoApiProcessor\Helpers\CryptoApiAdapterHelper;
 
-class ShowcaseExampleController extends Controller
+class SampleController extends Controller
 {
     use CryptoApiAdapterHelper;
 
