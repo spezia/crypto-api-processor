@@ -69,7 +69,7 @@ use Spezia\CryptoApiProcessor\CryptoApiAdapter;
 use Spezia\CryptoApiProcessor\Exceptions\CryptoApiProcessorException;
 use Spezia\CryptoApiProcessor\Helpers\CryptoApiAdapterHelper;
 
-class SampleController extends Controller
+class ShowcaseExampleController extends Controller
 {
     use CryptoApiAdapterHelper;
 
@@ -173,4 +173,4 @@ class SampleController extends Controller
 
 ## License
 
-Project Title is released under the MIT License. See the **[MIT](./LICENSE.md)** file for details.
+Project Title is released under the MIT License. See the **[MIT](./LICENSE)** file for details.
