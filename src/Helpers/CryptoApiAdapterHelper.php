@@ -39,8 +39,9 @@ trait CryptoApiAdapterHelper
     /**
      * Check if an amount is greater than the balance of the wallet address
      *
-     * @param float $amount
-     * @param string $ticker [ 'BTC', 'LTC', 'TRC20/USDT',... ]
+     * @param float  $amount
+     * @param string $ticker        [ 'BTC', 'LTC', 'TRC20/USDT',... ]
+     * @param string $fiatCurrency  [ 'USD', 'EUR', ... ]
      * @return boolean
      */
     public function hasExceedBalance(float $amount, string $ticker, string $fiatCurrency = ''): bool
@@ -74,7 +75,8 @@ trait CryptoApiAdapterHelper
     /**
      * Response with the estimated cost in various FIAT currencies [ USD, EUR, GBP, CAD,... ].
      *
-     * @param string $ticker  [ 'BTC', 'LTC', 'TRC20/USDT',... ]
+     * @param string $ticker    [ 'BTC', 'LTC', 'TRC20/USDT', ... ]
+     * @param string $currency  [ 'USD', 'EUR', ... ]
      * @return float
      */
     public function estimatedBlockchaiFiatFee(string $ticker, string $currency = 'USD'): float
