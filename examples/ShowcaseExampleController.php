@@ -10,7 +10,7 @@ use Spezia\CryptoApiProcessor\Helpers\CryptoApiAdapterHelper;
  * A couple of examples of how to use the CryptoApiAdapter
  * Copy this controller to your laravel app to test the CryptoApiAdapter
  */
-class ShowcaseExampleController extends Controller
+class SampleController extends Controller
 {
     use CryptoApiAdapterHelper;
 

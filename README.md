@@ -1,4 +1,4 @@
-# Crypto API Processor
+# Laravel Blockbee Crypto API Processor
 
 ## **Introduction**
 This package is an unofficial integration of the [Blockbee](https://blockbee.io/) cryptocurrency payment gateway for [Laravel](https://laravel.com/) applications.
@@ -14,7 +14,7 @@ Use Composer to install the package.
 composer require spezia/crypto-api-processor
 ```
 
-If you don't use auto-discovery, add the **CryptoApiProcessorServiceProvider** to the `providers` list in config/app.php.
+If you don't use auto-discovery, add the **CryptoApiProcessorServiceProvider** to the `providers` list in `config/app.php`.
 
 ```
 'providers' => [
@@ -69,7 +69,7 @@ use Spezia\CryptoApiProcessor\CryptoApiAdapter;
 use Spezia\CryptoApiProcessor\Exceptions\CryptoApiProcessorException;
 use Spezia\CryptoApiProcessor\Helpers\CryptoApiAdapterHelper;
 
-class ShowcaseExampleController extends Controller
+class SampleController extends Controller
 {
     use CryptoApiAdapterHelper;
 
