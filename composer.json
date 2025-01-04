@@ -28,6 +28,11 @@
             "Spezia\\CryptoApiProcessor\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Spezia\\CryptoApiProcessor\\Tests\\": "tests/"
+        }
+    },
     "config": {
         "sort-packages": true,
         "preferred-install": "dist",
@@ -44,5 +49,8 @@
                 "Spezia\\CryptoApiProcessor\\Providers\\CryptoApiProcessorServiceProvider"
             ]
         }
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.9"
     }
 }
