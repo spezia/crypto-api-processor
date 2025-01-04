@@ -144,7 +144,7 @@ class SampleController extends Controller
     public function fiatFee()
     {
         $ticker   = 'LTC';
-        $response = $this->estimatedBlockchaiFiatFee($ticker, 'USD');
+        $response = $this->estimatedBlockchainFiatFee($ticker, 'USD');
 
         return response()->json('USD fee is ' . $response);
     }
@@ -170,6 +170,11 @@ class SampleController extends Controller
 
 ```
 
+## Testing
+
+```
+vendor/bin/phpunit
+```
 
 ## License
 

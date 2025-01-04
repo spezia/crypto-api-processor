@@ -54,9 +54,9 @@ trait CryptoApiAdapterHelper
         $balance = $adapter->fetchTotalBalance($ticker);
         $info = $adapter->getInfoByTicker($ticker);
         $fees = $adapter->getBlockchainFee($ticker);
-        $blockchainFee = (float) $fiatCurrency ? $fees['estimated_cost_currency'][$fiatCurrency] : $fees['estimated_cost'];
+        $blockchainFee = $fiatCurrency ? $fees['estimated_cost_currency'][$fiatCurrency] : $fees['estimated_cost'];
 
-        return $amount + $blockchainFee + ($amount / 100 * (float) $info['fee_percent']) > $balance;
+        return $amount + (float) $blockchainFee + ($amount / 100 * (float) $info['fee_percent']) > $balance;
     }
 
     /**
@@ -65,7 +65,7 @@ trait CryptoApiAdapterHelper
      * @param string $ticker  [ 'BTC', 'LTC', 'TRC20/USDT',... ]
      * @return float
      */
-    public function estimatedBlockchaiCryptoFee(string $ticker): float
+    public function estimatedBlockchainCryptoFee(string $ticker): float
     {
         $response = $this->getAdapterInstance()->getBlockchainFee($ticker);
 
@@ -79,7 +79,7 @@ trait CryptoApiAdapterHelper
      * @param string $currency  [ 'USD', 'EUR', ... ]
      * @return float
      */
-    public function estimatedBlockchaiFiatFee(string $ticker, string $currency = 'USD'): float
+    public function estimatedBlockchainFiatFee(string $ticker, string $currency = 'USD'): float
     {
         $currency = strtoupper($currency);
         $response = $this->getAdapterInstance()->getBlockchainFee($ticker);
