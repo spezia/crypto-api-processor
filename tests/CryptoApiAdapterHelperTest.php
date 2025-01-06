@@ -44,17 +44,6 @@ class CryptoApiAdapterHelperTest extends TestCase
 
         $response = (new CryptoApiAdapter)->hasExceedBalance(0.05, $ticker);
         $this->assertTrue($response);
-
-        $response = (new CryptoApiAdapter)->hasExceedBalance(0.05, $ticker, 'EUR');
-        $this->assertTrue($response);
-    }
-
-    public function test_has_exceed_balance_exception()
-    {
-        $this->expectException(CryptoApiProcessorException::class);
-        $this->expectExceptionMessage('Invalid fiat currency.');
-
-        (new CryptoApiAdapter)->hasExceedBalance(0.01, 'LTC', 'RSD');
     }
 
     public function test_estimated_blockchain_crypto_fee()
@@ -85,5 +74,13 @@ class CryptoApiAdapterHelperTest extends TestCase
 
         $this->assertIsFloat($response);
         $this->assertEquals(0.150, $response);
+    }
+
+    public function test_estimated_blockchain_fiat_fee_exception()
+    {
+        $this->expectException(CryptoApiProcessorException::class);
+        $this->expectExceptionMessage('Invalid fiat currency.');
+
+        (new CryptoApiAdapter)->estimatedBlockchainFiatFee('LTC', 'RSD');
     }
 }

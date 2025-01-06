@@ -41,22 +41,17 @@ trait CryptoApiAdapterHelper
      *
      * @param float  $amount
      * @param string $ticker        [ 'BTC', 'LTC', 'TRC20/USDT',... ]
-     * @param string $fiatCurrency  [ 'USD', 'EUR', ... ]
      * @return boolean
      */
-    public function hasExceedBalance(float $amount, string $ticker, string $fiatCurrency = ''): bool
+    public function hasExceedBalance(float $amount, string $ticker): bool
     {
-        if ($fiatCurrency && !in_array(strtoupper($fiatCurrency), config('blockbee.supported_fiat_currencies'))) {
-            throw new CryptoApiProcessorException('Invalid fiat currency.');
-        }
-
         $adapter = $this->getAdapterInstance();
         $balance = $adapter->fetchTotalBalance($ticker);
         $info = $adapter->getInfoByTicker($ticker);
         $fees = $adapter->getBlockchainFee($ticker);
-        $blockchainFee = $fiatCurrency ? $fees['estimated_cost_currency'][$fiatCurrency] : $fees['estimated_cost'];
+        $blockchainFee = (float) $fees['estimated_cost'];
 
-        return $amount + (float) $blockchainFee + ($amount / 100 * (float) $info['fee_percent']) > $balance;
+        return $amount + $blockchainFee + ($amount / 100 * (float) $info['fee_percent']) > $balance;
     }
 
     /**
@@ -81,6 +76,10 @@ trait CryptoApiAdapterHelper
      */
     public function estimatedBlockchainFiatFee(string $ticker, string $currency = 'USD'): float
     {
+        if ($currency && !in_array(strtoupper($currency), config('blockbee.supported_fiat_currencies'))) {
+            throw new CryptoApiProcessorException('Invalid fiat currency.');
+        }
+
         $currency = strtoupper($currency);
         $response = $this->getAdapterInstance()->getBlockchainFee($ticker);
 
