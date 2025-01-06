@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * CryptoApiProcessor
+ *
+ * @author  Aleksandar Rancic <aleks.rancic@gmail.com>
+ * @license MIT License
+ * @link    https://github.com/spezia/crypto-api-processor
+ */
+
 namespace Spezia\CryptoApiProcessor\Tests;
 
 use Illuminate\Support\Facades\Config;
