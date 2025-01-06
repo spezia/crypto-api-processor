@@ -98,9 +98,8 @@ class SampleController extends Controller
         try {
             $ticker = 'LTC';
             $amount = 0.5;
-            $fiat   = 'USD';
 
-            $response = $this->hasExceedBalance($amount, $ticker, $fiat);
+            $response = $this->hasExceedBalance($amount, $ticker);
 
             return response()->json($response ? 'Amount exceeds balance.' : 'Amount is valid.');
         } catch (CryptoApiProcessorException $e) {

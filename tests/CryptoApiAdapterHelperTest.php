@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * CryptoApiProcessor
+ *
+ * @author  Aleksandar Rancic <aleks.rancic@gmail.com>
+ * @license MIT License
+ * @link    https://github.com/spezia/crypto-api-processor
+ */
+
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Orchestra\Testbench\TestCase;
