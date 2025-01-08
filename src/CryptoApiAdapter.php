@@ -32,7 +32,7 @@ class CryptoApiAdapter
 
     protected function getApiKey(): string
     {
-        return config('blockbee.api_key');
+        return config('blockbee.api_key') ?? throw new CryptoApiProcessorException('BlockBee API key is missing.');
     }
 
     public function get(#[\SensitiveParameter] string $url): iterable
