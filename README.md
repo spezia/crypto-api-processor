@@ -171,8 +171,8 @@ class SampleController extends Controller
 
 ## Testing
 
-```
-vendor/bin/phpunit
+```bash
+./vendor/bin/phpunit
 ```
 
 ## Contributing
@@ -181,4 +181,4 @@ Pull requests are welcome.
 
 ## License
 
-Crypto API Processor is released under the MIT License. See the **[MIT](./LICENSE)** file for details.
+Crypto API Processor is released under the MIT License. See the [MIT](./LICENSE) file for details.
