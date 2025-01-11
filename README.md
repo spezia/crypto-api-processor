@@ -181,4 +181,4 @@ Pull requests are welcome.
 
 ## License
 
-Project Title is released under the MIT License. See the **[MIT](./LICENSE)** file for details.
+Crypto API Processor is released under the MIT License. See the **[MIT](./LICENSE)** file for details.
