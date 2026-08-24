@@ -1,5 +1,5 @@
 # Laravel Blockbee Crypto API Processor
-
+![Tests](https://github.com/spezia/crypto-api-processor/actions/workflows/tests.yml/badge.svg)
 ## **Introduction**
 This package is an unofficial integration of the [Blockbee](https://blockbee.io/) cryptocurrency payment gateway for [Laravel](https://laravel.com/) applications.
 
