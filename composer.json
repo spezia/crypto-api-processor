@@ -18,7 +18,7 @@
     "type": "library",
     "require": {
         "php": ">=8.2",
-        "laravel/framework": "^9.0|^10.0|^11.0"
+        "laravel/framework": "^11.0|^12.61.1|^13.0"
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
@@ -51,6 +51,6 @@
         }
     },
     "require-dev": {
-        "orchestra/testbench": "^9.9"
+        "orchestra/testbench": "^9.9|^10.0|^11.0"
     }
 }
