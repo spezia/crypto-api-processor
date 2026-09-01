@@ -40,7 +40,7 @@
     },
     "scripts": {
         "post-autoload-dump": [
-            "@php artisan vendor:publish --tag=blockbee-config --force"
+            "@php artisan vendor:publish --tag=blockbee-config"
         ]
     },
     "extra": {

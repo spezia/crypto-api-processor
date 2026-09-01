@@ -207,4 +207,50 @@ class CryptoApiAdapterTest extends TestCase
         $this->assertArrayHasKey('estimated_cost', $response);
         $this->assertEquals(0.0001, $response['estimated_cost']);
     }
+
+    public function test_get_throws_on_non_json_success_body()
+    {
+        $this->expectException(CryptoApiProcessorException::class);
+        $this->expectExceptionMessage('Error fetching info.');
+
+        Http::fake([
+            '*' => Http::response('plain text', 200),
+        ]);
+
+        (new CryptoApiAdapter)->get(config('blockbee.base_url'));
+    }
+
+    public function test_post_throws_on_non_json_success_body()
+    {
+        $this->expectException(CryptoApiProcessorException::class);
+        $this->expectExceptionMessage('Your request could not be processed, please try again later');
+
+        Http::fake([
+            '*' => Http::response('plain text', 200),
+        ]);
+
+        (new CryptoApiAdapter)->post(config('blockbee.base_url'), []);
+    }
+
+    public function test_blank_api_key_is_rejected()
+    {
+        $this->expectException(CryptoApiProcessorException::class);
+        $this->expectExceptionMessage('BlockBee API key is missing.');
+
+        Config::set('blockbee.api_key', '');
+
+        (new CryptoApiAdapter)->fetchTotalBalance('btc');
+    }
+
+    public function test_fetch_total_balance_parses_string_balance()
+    {
+        Http::fake([
+            '*' => Http::response(['status' => 'success', 'balance' => '0.12345678'], 200),
+        ]);
+
+        $response = (new CryptoApiAdapter)->fetchTotalBalance('btc');
+
+        $this->assertIsFloat($response);
+        $this->assertEquals(0.12345678, $response);
+    }
 }

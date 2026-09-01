@@ -91,4 +91,54 @@ class CryptoApiAdapterHelperTest extends TestCase
 
         (new CryptoApiAdapter)->estimatedBlockchainFiatFee('LTC', 'RSD');
     }
+
+    public function test_is_token()
+    {
+        $adapter = new CryptoApiAdapter;
+
+        $this->assertFalse($adapter->isToken('BTC'));
+        $this->assertFalse($adapter->isToken('LTC'));
+        $this->assertTrue($adapter->isToken('TRC20/USDT'));
+        $this->assertTrue($adapter->isToken('ERC20/USDT'));
+    }
+
+    public function test_has_exceed_balance_ignores_blockchain_fee_for_tokens()
+    {
+        $ticker = 'TRC20/USDT';
+
+        Http::fake([
+            config('blockbee.base_url') . '/' . strtolower($ticker) . '/payout/balance/?' . http_build_query(['apikey' => 'test123'])
+            => Http::response(['status' => 'success', 'balance' => '150.00'], 200),
+
+            config('blockbee.base_url') . '/' . strtolower($ticker) . '/info/?' . http_build_query(['apikey' => 'test123', 'prices' => 1])
+            => Http::response(['status' => 'success', 'fee_percent' => '1.000'], 200),
+
+            config('blockbee.base_url') . '/' . strtolower($ticker) . '/estimate/?' . http_build_query(['apikey' => 'test123', 'addresses' => 1, 'priority' => 'default'])
+            => Http::response(['status' => 'success', 'estimated_cost' => '27.00000000'], 200),
+
+            config('blockbee.base_url') . '/trx/payout/balance/?' . http_build_query(['apikey' => 'test123'])
+            => Http::response(['status' => 'success', 'balance' => '100.00'], 200),
+        ]);
+
+        $this->assertFalse((new CryptoApiAdapter)->hasExceedBalance(130.0, $ticker));
+    }
+
+    public function test_has_exceed_balance_still_counts_blockchain_fee_for_native_coins()
+    {
+        $ticker = 'LTC';
+
+        Http::fake([
+            config('blockbee.base_url') . '/' . strtolower($ticker) . '/payout/balance/?' . http_build_query(['apikey' => 'test123'])
+            => Http::response(['status' => 'success', 'balance' => '0.01100000'], 200),
+
+            config('blockbee.base_url') . '/' . strtolower($ticker) . '/info/?' . http_build_query(['apikey' => 'test123', 'prices' => 1])
+            => Http::response(['status' => 'success', 'fee_percent' => '1.000'], 200),
+
+            config('blockbee.base_url') . '/' . strtolower($ticker) . '/estimate/?' . http_build_query(['apikey' => 'test123', 'addresses' => 1, 'priority' => 'default'])
+            => Http::response(['status' => 'success', 'estimated_cost' => '0.00100000'], 200),
+        ]);
+
+        $this->assertTrue((new CryptoApiAdapter)->hasExceedBalance(0.0108, $ticker));
+    }
+
 }

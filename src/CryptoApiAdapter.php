@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Spezia\CryptoApiProcessor;
 
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Spezia\CryptoApiProcessor\Exceptions\CryptoApiProcessorException;
 use Spezia\CryptoApiProcessor\Helpers\CryptoApiAdapterHelper;
 
@@ -32,19 +31,25 @@ class CryptoApiAdapter
 
     protected function getApiKey(): string
     {
-        return config('blockbee.api_key') ?? throw new CryptoApiProcessorException('BlockBee API key is missing.');
+        $apiKey = config('blockbee.api_key');
+
+        if (!is_string($apiKey) || '' === trim($apiKey)) {
+            throw new CryptoApiProcessorException('BlockBee API key is missing.');
+        }
+
+        return $apiKey;
     }
 
     public function get(#[\SensitiveParameter] string $url): iterable
     {
         $response = Http::get($url);
+        $payload = $response->json();
 
-        if (200 != $response->status()) {
-            Log::error('BlockBee response: ',  $response->json());
+        if (200 != $response->status() || !is_array($payload)) {
             throw new CryptoApiProcessorException('Error fetching info.');
         }
 
-        return $response->json();
+        return $payload;
     }
 
     public function post(#[\SensitiveParameter] string $url, #[\SensitiveParameter] array|string $params, string $contentType = 'application/json'): iterable
@@ -54,13 +59,13 @@ class CryptoApiAdapter
         ]);
 
         $response = is_array($params) ? $request->post($url, $params) : $request->withBody($params, $contentType)->post($url);
+        $payload = $response->json();
 
-        if (200 != $response->status()) {
-            Log::error('BlockBee response has status ' . $response->status());
+        if (200 != $response->status() || !is_array($payload)) {
             throw new CryptoApiProcessorException('Your request could not be processed, please try again later');
         }
 
-        return $response->json();
+        return $payload;
     }
 
     /**
@@ -176,6 +181,10 @@ class CryptoApiAdapter
         ];
 
         $response = $this->get($this->getBaseUrl() . '/' . strtolower($ticker) . '/payout/balance/?' . http_build_query($query));
+
+        if (!isset($response['balance'])) {
+            throw new CryptoApiProcessorException('BlockBee did not return balance for ' . $ticker . '.');
+        }
 
         return (float) $response['balance'];
     }
