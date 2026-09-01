@@ -115,6 +115,9 @@ class CryptoApiAdapterHelperTest extends TestCase
 
             config('blockbee.base_url') . '/' . strtolower($ticker) . '/estimate/?' . http_build_query(['apikey' => 'test123', 'addresses' => 1, 'priority' => 'default'])
             => Http::response(['status' => 'success', 'estimated_cost' => '27.00000000'], 200),
+
+            config('blockbee.base_url') . '/trx/payout/balance/?' . http_build_query(['apikey' => 'test123'])
+            => Http::response(['status' => 'success', 'balance' => '100.00'], 200),
         ]);
 
         $this->assertFalse((new CryptoApiAdapter)->hasExceedBalance(130.0, $ticker));
